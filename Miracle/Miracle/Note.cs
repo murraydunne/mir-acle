@@ -15,7 +15,7 @@ namespace Miracle
         Whole = 1
     }
 
-    class Note
+    public class Note
     {
         public Note(NoteLength l = NoteLength.Quarter)
         {
@@ -96,7 +96,7 @@ namespace Miracle
             n.IsRest = c1.IsRest;
             n.Length = c1.Length;
             n.Id = c1.Id + c2;
-            return c1;
+            return n;
         }
 
         public static Note operator -(Note c1, int c2)
@@ -105,7 +105,7 @@ namespace Miracle
             n.IsRest = c1.IsRest;
             n.Length = c1.Length;
             n.Id = c1.Id - c2;
-            return c1;
+            return n;
         }
 
 
