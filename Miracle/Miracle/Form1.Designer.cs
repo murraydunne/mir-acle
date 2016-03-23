@@ -28,12 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.pianoStaff1 = new Miracle.PianoStaff();
+            this.SuspendLayout();
+            // 
+            // pianoStaff1
+            // 
+            this.pianoStaff1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pianoStaff1.Location = new System.Drawing.Point(0, 0);
+            this.pianoStaff1.Name = "pianoStaff1";
+            this.pianoStaff1.Size = new System.Drawing.Size(284, 262);
+            this.pianoStaff1.TabIndex = 0;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.pianoStaff1);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private PianoStaff pianoStaff1;
     }
 }
 
