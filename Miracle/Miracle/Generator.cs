@@ -55,11 +55,11 @@ namespace Miracle
                 float barPos = overLap;
                 while(barPos<4)
                 {
-                    int nextRand = r.Next(7);                             //this gives a random note in the scale
-                    //int nextRand = r.Next(2) == 1 ? r.Next(3) * 2 : 7;      //this gives 0,2,4,7
+                    //int nextRand = r.Next(7);                             //this gives a random note in the scale
+                    int nextRand = r.Next(2) == 1 ? r.Next(3) * 2 : 7;      //this gives 0,2,4,7
                     nextPitch = (nextRand) % 7;
                     nextOctave = nextRand / 7;
-                    nextLength = (int)Math.Pow(2.0, (double)r.Next(5));
+                    nextLength = (int)Math.Pow(2.0, (double)r.Next(4)+1); // what do we say to whole notes? not today
                     output.Add(new Note((Key + 12*nextOctave + Scales[0,chords[i]] + Scales[0,nextPitch%7]).Id, (NoteLength)nextLength));
                     barPos += 4.0f / nextLength;
                 }
