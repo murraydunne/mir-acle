@@ -58,6 +58,7 @@
     <Compile Include="PianoStaff.Designer.cs">
       <DependentUpon>PianoStaff.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generator.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
