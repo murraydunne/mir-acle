@@ -104,28 +104,31 @@ namespace Miracle
             int y = topOfStaff - noteHeight + (halfStepsDownFromAboveTopLine * (noteHeight / 2));
             bool stemUp = false;
 
-            if(halfStepsDownFromAboveTopLine <= 5 || (halfStepsDownFromAboveTopLine >= 11 && halfStepsDownFromAboveTopLine <= 16))
+            if(stem)
             {
-                // stem down (on the left)
-                g.DrawLine(Pens.Black, x, y + (noteHeight / 2), x, y + (noteHeight / 2) + noteHeight * 3);
-            }
-            else
-            {
-                // stem up (on the right)
-                stemUp = true;
-                g.DrawLine(Pens.Black, x + noteHeight, y + (noteHeight / 2), x + noteHeight, y + (noteHeight / 2) - noteHeight * 3);
-            }
-
-            // flags for 8th and 16th
-            for(int i = 0; i < numFlags; i++)
-            {
-                if(stemUp)
+                if (halfStepsDownFromAboveTopLine <= 5 || (halfStepsDownFromAboveTopLine >= 11 && halfStepsDownFromAboveTopLine <= 16))
                 {
-                    g.DrawLine(Pens.Black, x + noteHeight, y + (noteHeight / 2) - noteHeight * (-i + 3), x + noteHeight + noteHeight, y + (noteHeight / 2) - noteHeight * (-i + 2));
+                    // stem down (on the left)
+                    g.DrawLine(Pens.Black, x, y + (noteHeight / 2), x, y + (noteHeight / 2) + noteHeight * 3);
                 }
                 else
                 {
-                    g.DrawLine(Pens.Black, x, y + (noteHeight / 2) + noteHeight * (-i + 3), x + noteHeight, y + (noteHeight / 2) + noteHeight * (-i + 2));
+                    // stem up (on the right)
+                    stemUp = true;
+                    g.DrawLine(Pens.Black, x + noteHeight, y + (noteHeight / 2), x + noteHeight, y + (noteHeight / 2) - noteHeight * 3);
+                }
+
+                // flags for 8th and 16th
+                for (int i = 0; i < numFlags; i++)
+                {
+                    if (stemUp)
+                    {
+                        g.DrawLine(Pens.Black, x + noteHeight, y + (noteHeight / 2) - noteHeight * (-i + 3), x + noteHeight + noteHeight, y + (noteHeight / 2) - noteHeight * (-i + 2));
+                    }
+                    else
+                    {
+                        g.DrawLine(Pens.Black, x, y + (noteHeight / 2) + noteHeight * (-i + 3), x + noteHeight, y + (noteHeight / 2) + noteHeight * (-i + 2));
+                    }
                 }
             }
 
