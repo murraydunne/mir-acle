@@ -58,9 +58,13 @@ namespace Miracle
                     int nextRand = r.Next(7);                             //this gives a random note in the scale
                     //int nextRand = r.Next(2) == 1 ? r.Next(3) * 2 : 7;      //this gives 0,2,4,7
                     nextPitch = (nextRand) % 7;
-                    nextOctave = nextRand / 7;
+                    nextOctave = (nextRand / 7)*12; //if nextrand exceeds 7, the modulus applied so we need to add an octave
                     nextLength = (int)Math.Pow(2.0, (double)r.Next(5));
-                    output.Add(new Note((Key + 12*nextOctave + Scales[0,chords[i]] + Scales[0,nextPitch%7]).Id, (NoteLength)nextLength));
+                    output.Add(new Note((Key + 
+                                        nextOctave +            //goes up an octive if necessary
+                                        Scales[0,chords[i]] +   //goes to the root of the current chord
+                                        Scales[0,nextPitch]).Id, //goes to the randomized note at that chord
+                                        (NoteLength)nextLength));
                     barPos += 4.0f / nextLength;
                 }
                 overLap = barPos - 4;
