@@ -56,29 +56,29 @@ namespace Miracle
             foreach(Note n in song)
             {
                 int noteX = (currentPoitionIn16ths + barlineSpace) * sixteenthXInterval + 27;
-                int halfstepsDown = 13 - n.Id;
+                int halfstepsDown = 20 - n.GetOctave() * 7 - n.GetStaffPosition();
                 int deltaSixteenths = 0;
 
                 switch(n.Length)
                 {
                     case NoteLength.Sixteenth:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 2);
+                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 2, n.IsSharp());
                         deltaSixteenths = 1;
                         break;
                     case NoteLength.Eighth:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 1);
+                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 1, n.IsSharp());
                         deltaSixteenths = 2;
                         break;
                     case NoteLength.Quarter:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 0);
+                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 0, n.IsSharp());
                         deltaSixteenths = 4;
                         break;
                     case NoteLength.Half:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, true, true, 0);
+                        DrawNote(g, noteX, yOffset, halfstepsDown, true, true, 0, n.IsSharp());
                         deltaSixteenths = 8;
                         break;
                     case NoteLength.Whole:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, true, false, 0);
+                        DrawNote(g, noteX, yOffset, halfstepsDown, true, false, 0, n.IsSharp());
                         deltaSixteenths = 16;
                         break;
                 }
@@ -99,7 +99,7 @@ namespace Miracle
             }
         }
 
-        private void DrawNote(Graphics g, int x, int topOfStaff, int halfStepsDownFromAboveTopLine, bool hollow, bool stem, int numFlags)
+        private void DrawNote(Graphics g, int x, int topOfStaff, int halfStepsDownFromAboveTopLine, bool hollow, bool stem, int numFlags, bool isSharp)
         {
             int y = topOfStaff - noteHeight + (halfStepsDownFromAboveTopLine * (noteHeight / 2));
             bool stemUp = false;
@@ -139,6 +139,15 @@ namespace Miracle
             else
             {
                 g.FillEllipse(Brushes.Black, x, y, noteHeight, noteHeight);
+            }
+
+            if(isSharp)
+            {
+                g.DrawLine(Pens.Black, x - 10, y + 4, x - 2, y + 2);
+                g.DrawLine(Pens.Black, x - 10, y + 8, x - 2, y + 6);
+
+                g.DrawLine(Pens.Black, x - 8, y + 11, x - 8, y - 1);
+                g.DrawLine(Pens.Black, x - 4, y + 11, x - 4, y - 1);
             }
         }
 

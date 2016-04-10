@@ -14,10 +14,12 @@ namespace Miracle
     public partial class MainFrame : Form
     {
         List<Note> currentSong = null;
+        Player currentPlayer = null;
 
         public MainFrame()
         {
             InitializeComponent();
+            currentPlayer = new Player();
         }
 
         private void HandleLoad(object sender, EventArgs e)
@@ -33,6 +35,14 @@ namespace Miracle
             Generator g = new Generator(l, k);
             currentSong = g.Generate();
 
+            //currentSong = new Loader().LoadMidiFile("D:/Downloads/cs1-1pre.mid");
+
+            //currentSong = new List<Note>();
+            //currentSong.Add(new Note(0));
+            //currentSong.Add(new Note(4));
+            //currentSong.Add(new Note(7));
+            //currentSong.Add(new Note(12));
+
             pianoStaff.SetSong(currentSong);
 
             Invalidate();
@@ -42,8 +52,28 @@ namespace Miracle
         {
             if (currentSong != null)
             {
-                Player p = new Player();
-                p.Play(currentSong);
+                if (currentPlayer.IsPlaying)
+                {
+                    currentPlayer.Stop();
+                }
+
+                currentPlayer.Play(currentSong);
+            }
+        }
+
+        private void HandleStopClick(object sender, EventArgs e)
+        {
+            if (currentPlayer.IsPlaying)
+            {
+                currentPlayer.Stop();
+            }
+        }
+
+        private void HandleClosed(object sender, FormClosedEventArgs e)
+        {
+            if (currentPlayer.IsPlaying)
+            {
+                currentPlayer.Stop();
             }
         }
     }

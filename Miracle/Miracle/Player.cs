@@ -12,20 +12,81 @@ namespace Miracle
     {
         public int SixteenthNoteLengthInMs { get; set; }
 
+        private object playingLock = new object();
+        private bool isCurrentlyPlaying = false;
+        private bool stopPlayback = false;
+        private Thread playingThread = null;
+
         public Player()
         {
             SixteenthNoteLengthInMs = 208; // ~200 BPM
         }
 
-
         public void Play(List<Note> song)
         {
+            lock(playingLock)
+            {
+                if(isCurrentlyPlaying)
+                {
+                    return;
+                }
+
+                isCurrentlyPlaying = true;
+                stopPlayback = false;
+
+                List<Note> copyOfSong = new List<Note>(song);
+
+                playingThread = new Thread(new ParameterizedThreadStart(DoPlay));
+                playingThread.Start(copyOfSong);
+            }
+        }
+
+        public void Stop()
+        {
+            lock(playingLock)
+            {
+                stopPlayback = true;
+            }
+
+            playingThread.Join();
+
+            lock(playingLock)
+            {
+                isCurrentlyPlaying = false;
+                stopPlayback = false;
+                playingThread = null;
+            }
+        }
+
+        public bool IsPlaying
+        {
+            get
+            {
+                lock(playingLock)
+                {
+                    return isCurrentlyPlaying;
+                }
+            }
+        }
+
+        private void DoPlay(object objSong)
+        {
+            List<Note> song = (List<Note>)objSong;
+
             using (OutputDevice outDevice = new OutputDevice(0))
             {
                 ChannelMessageBuilder builder = new ChannelMessageBuilder();
 
-                foreach(Note n in song)
+                foreach (Note n in song)
                 {
+                    lock(playingLock)
+                    {
+                        if(stopPlayback)
+                        {
+                            break;
+                        }
+                    }
+
                     builder.Command = ChannelCommand.NoteOn;
                     builder.MidiChannel = 0;
                     builder.Data1 = n.Id + 45;
