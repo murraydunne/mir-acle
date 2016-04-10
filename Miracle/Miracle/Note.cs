@@ -8,11 +8,11 @@ namespace Miracle
 {
     public enum NoteLength
     {
-        Sixteenth = 16,
-        Eighth = 8,
+        Sixteenth = 1,
+        Eighth = 2,
         Quarter = 4,
-        Half = 2,
-        Whole = 1
+        Half = 8,
+        Whole = 16
     }
 
     public class Note
@@ -88,6 +88,67 @@ namespace Miracle
             output += (Id + 9) / 12 + 3;
          
             return output;
+        }
+
+        public bool isSharp()
+        {
+            int test = Id % 12;
+            if (test % 12 == 1 || test % 12 == 4 || test % 12 == 6 || test % 12 == 9 || test % 12 == 11)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public int getStaffPosition()
+        {
+            int output = 0;
+            int test = Id % 12;
+            switch (test)
+            {
+                case 0:
+                    output = 0; //a
+                    break;
+                case 1:
+                    output = 0; //a#
+                    break;
+                case 2:
+                    output = 1; //b
+                    break;
+                case 3:
+                    output = 2; //c
+                    break;
+                case 4:
+                    output = 2; //c#
+                    break;
+                case 5:
+                    output = 3; //d
+                    break;
+                case 6:
+                    output = 3; //d#
+                    break;
+                case 7:
+                    output = 4; //e
+                    break;
+                case 8:
+                    output = 5; //f
+                    break;
+                case 9:
+                    output = 5; //f#
+                    break;
+                case 10:
+                    output = 6; //g
+                    break;
+                case 11:
+                    output = 6; //g#
+                    break;
+            }
+            return output;
+        }
+
+        public int getOctave()
+        {
+            return (int)(Id / 12) * 8;
         }
 
         public static Note operator +(Note c1, int c2)
