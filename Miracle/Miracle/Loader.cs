@@ -24,7 +24,7 @@ namespace Miracle
                     
                     if(msg.Command == ChannelCommand.NoteOn)
                     {
-                        song.Add(new Note(msg.Data1 - 45));
+                        song.Add(new Note(msg.Data1 - 45, NoteLength.Sixteenth));
                     }
                 }
             }
