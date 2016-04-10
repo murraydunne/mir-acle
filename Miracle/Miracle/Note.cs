@@ -10,7 +10,9 @@ namespace Miracle
     {
         Sixteenth = 1,
         Eighth = 2,
+        DottedEighth = 3,
         Quarter = 4,
+        DottedQuarter = 6,
         Half = 8,
         Whole = 16
     }
@@ -41,7 +43,7 @@ namespace Miracle
             }
         }
 
-        public String getName()
+        public String GetName()
         {
             String output = "";
             int test = Id % 12;
@@ -90,7 +92,7 @@ namespace Miracle
             return output;
         }
 
-        public bool isSharp()
+        public bool IsSharp()
         {
             int test = Id % 12;
             if (test % 12 == 1 || test % 12 == 4 || test % 12 == 6 || test % 12 == 9 || test % 12 == 11)
@@ -100,7 +102,7 @@ namespace Miracle
             return false;
         }
 
-        public int getStaffPosition()
+        public int GetStaffPosition()
         {
             int output = 0;
             int test = Id % 12;
@@ -146,9 +148,9 @@ namespace Miracle
             return output;
         }
 
-        public int getOctave()
+        public int GetOctave()
         {
-            return (int)(Id / 12) * 8;
+            return (int)(Id / 12);
         }
 
         public static Note operator +(Note c1, int c2)
