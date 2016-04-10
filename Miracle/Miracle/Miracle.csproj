@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Loader.cs" />
     <Compile Include="MainFrame.cs" />
     <Compile Include="MainFrame.Designer.cs">
       <DependentUpon>MainFrame.cs</DependentUpon>
