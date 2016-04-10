@@ -32,7 +32,7 @@ namespace Miracle
             int[] l = { 0, 4, 5, 3 };   //chords in intervals from key
             Note k = new Note(0);
 
-            Generator g = new Generator(l, k);
+            IGenerator g = new MarkovGenerator(); // new Generator(l, k);
             currentSong = g.Generate();
 
             //currentSong = new Loader().LoadMidiFile("D:/Downloads/cs1-1pre.mid");
