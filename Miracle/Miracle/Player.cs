@@ -122,7 +122,7 @@ namespace Miracle
 
                 // turn first chord on
                 Note(true, key + chords[0], builder, outDevice);
-                lastChordOn = key + chords[0];
+                lastChordOn = key + Scales.Major[chords[0]];
 
                 foreach (Note n in song)
                 {
@@ -156,8 +156,8 @@ namespace Miracle
                         {
                             // this chord on
                             int newChord = chords[currentSongPos / 16];
-                            Note(true, key + newChord, builder, outDevice);
-                            lastChordOn = key + newChord;
+                            Note(true, key + Scales.Major[newChord], builder, outDevice);
+                            lastChordOn = key + Scales.Major[newChord];
                         }
                     }
 

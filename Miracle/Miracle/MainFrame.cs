@@ -40,7 +40,7 @@ namespace Miracle
             int[] l = { chordBox1.SelectedIndex, chordBox2.SelectedIndex, chordBox3.SelectedIndex, chordBox4.SelectedIndex };
             Note k = new Note(keyBox.SelectedIndex);
             
-            IGenerator g = new Generator(l, k);
+            IGenerator g = new NoiseGenerator(l, k);
             if (markovGenerator != null)
             {
                 g = markovGenerator;
@@ -71,7 +71,7 @@ namespace Miracle
                     currentPlayer.Stop();
                 }
 
-                int key = keyBox.SelectedIndex;
+                int key = keyBox.SelectedIndex - 12;
                 List<int> chords = new List<int>();
                 chords.Add(chordBox1.SelectedIndex);
                 chords.Add(chordBox2.SelectedIndex);
