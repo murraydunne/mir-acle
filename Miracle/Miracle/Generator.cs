@@ -28,7 +28,8 @@ namespace Miracle
         private static int[,] Scales =
         {
             {0,2,4,5,7,9,11 },  //major
-            {0,2,3,5,7,8,10 }   //minor
+            {0,2,3,5,7,8,10 },   //minor
+            {0,2,3,5,12,7,3 }   //test
         };
 
         public Note Key { get; set; }
@@ -39,6 +40,16 @@ namespace Miracle
         {
             chords = c;
             Key = k;
+        }
+
+        private bool Chance(int c)
+        {
+            Random r = new Random();
+            if (r.Next(100) < c)
+            {
+                return true;
+            }
+            return false;
         }
 
         public List<Note> Generate()
@@ -55,22 +66,31 @@ namespace Miracle
                 int barPos = overLap;
                 while(barPos<16)
                 {
-                    //int nextRand = r.Next(7);                             //this gives a random note in the scale
-                    int nextRand = r.Next(2) == 1 ? r.Next(3) * 2 : 7;      //this gives 0,2,4,7
+                    int nextRand = r.Next(7);                             //this gives a random note in the scale
+                    //int nextRand = r.Next(2) == 1 ? r.Next(3) * 2 : 7;      //this gives 0,2,4,7
                     nextPitch = (nextRand) % 7;
                     nextOctave = (nextRand / 7)*12; //if nextrand exceeds 7, the modulus applied so we need to add an octave
-                    nextLength = (int)Math.Pow(2.0, (double)r.Next(4));
-                    barPos += nextLength;
-                    while (barPos % 4 != 0 && barPos % 4 != nextLength && nextLength != 1)
+                    nextLength = (int)Math.Pow(2.0, (double)r.Next(3));
+                    if (barPos == 0 && Chance(70)) //if beginning of bar, use root sometimes
                     {
-                        barPos -= nextLength;
-                        nextLength = nextLength >> 1;
-                        barPos += nextLength;
+                        nextPitch = 0;
                     }
+                    barPos += nextLength;
+                    if(barPos > 16 || Chance(50)) //if overlapping the bar, always shorten the note, sometimes cut to the quarternote anyways
+                    {
+                        while (barPos % 4 != 0 && barPos % 4 != nextLength && nextLength != 1)
+                        {
+                            barPos -= nextLength;
+                            nextLength = nextLength >> 1;
+                            barPos += nextLength;
+                        }
+                    }
+
+                    
                     output.Add(new Note((Key + 
                                         nextOctave +            //goes up an octive if necessary
                                         Scales[0,chords[i]] +   //goes to the root of the current chord
-                                        Scales[0,nextPitch]).Id, //goes to the randomized note at that chord
+                                        Scales[2,nextPitch]).Id, //goes to the randomized note at that chord
                                         (NoteLength)nextLength));
                     
 
