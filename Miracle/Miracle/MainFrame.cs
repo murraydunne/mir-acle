@@ -15,10 +15,18 @@ namespace Miracle
     {
         List<Note> currentSong = null;
         Player currentPlayer = null;
+        MarkovGenerator markovGenerator = null;
 
         public MainFrame()
         {
             InitializeComponent();
+
+            keyBox.SelectedIndex = 0;
+            chordBox1.SelectedIndex = 0;
+            chordBox2.SelectedIndex = 0;
+            chordBox3.SelectedIndex = 0;
+            chordBox4.SelectedIndex = 0;
+
             currentPlayer = new Player();
         }
 
@@ -29,10 +37,16 @@ namespace Miracle
 
         private void HandleGenerateClick(object sender, EventArgs e)
         {
-            int[] l = { 0, 4, 5, 3 };   //chords in intervals from key
-            Note k = new Note(0);
+            int[] l = { chordBox1.SelectedIndex, chordBox2.SelectedIndex, chordBox3.SelectedIndex, chordBox4.SelectedIndex };
+            Note k = new Note(keyBox.SelectedIndex);
+            
+            IGenerator g = new Generator(l, k);
+            if (markovGenerator != null)
+            {
+                g = markovGenerator;
+            }
 
-            NoiseGenerator g = new NoiseGenerator(l, k);
+            //NoiseGenerator g = new NoiseGenerator(l, k);
             currentSong = g.Generate();
 
             //currentSong = new Loader().LoadMidiFile("D:/Downloads/cs1-1pre.mid");
@@ -57,7 +71,14 @@ namespace Miracle
                     currentPlayer.Stop();
                 }
 
-                currentPlayer.Play(currentSong);
+                int key = keyBox.SelectedIndex;
+                List<int> chords = new List<int>();
+                chords.Add(chordBox1.SelectedIndex);
+                chords.Add(chordBox2.SelectedIndex);
+                chords.Add(chordBox3.SelectedIndex);
+                chords.Add(chordBox4.SelectedIndex);
+
+                currentPlayer.Play(currentSong, key, chords);
             }
         }
 
@@ -74,6 +95,14 @@ namespace Miracle
             if (currentPlayer.IsPlaying)
             {
                 currentPlayer.Stop();
+            }
+        }
+
+        private void HandleMarkovTrainClick(object sender, EventArgs e)
+        {
+            if(markovGenerator == null)
+            {
+                markovGenerator = new MarkovGenerator("D:/Downloads/cs1-1pre.mid");
             }
         }
     }
