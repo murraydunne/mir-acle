@@ -12,9 +12,9 @@ namespace Miracle
     {
         private HiddenMarkovModel model;
 
-        public MarkovGenerator()
+        public MarkovGenerator(string trainingFile)
         {
-            Note[] basis = new Loader().LoadMidiFile("D:/Downloads/cs1-1pre.mid").ToArray();
+            Note[] basis = new Loader().LoadMidiFile(trainingFile).ToArray();
 
             int[][] sequences = new int[basis.Length / 64][];
             for(int i = 0; i < basis.Length / 64; i++)

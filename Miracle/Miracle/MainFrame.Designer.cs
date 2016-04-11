@@ -29,20 +29,21 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.pianoStaff = new Miracle.PianoStaff();
+            this.trainMarkovButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.playButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.keyBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.generateButton = new System.Windows.Forms.Button();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.chordBox4 = new System.Windows.Forms.ComboBox();
+            this.chordBox3 = new System.Windows.Forms.ComboBox();
+            this.chordBox2 = new System.Windows.Forms.ComboBox();
+            this.chordBox1 = new System.Windows.Forms.ComboBox();
+            this.pianoStaff = new Miracle.PianoStaff();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -62,32 +63,33 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.trainMarkovButton);
             this.splitContainer1.Panel2.Controls.Add(this.stopButton);
             this.splitContainer1.Panel2.Controls.Add(this.playButton);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
-            this.splitContainer1.Panel2.Controls.Add(this.comboBox5);
+            this.splitContainer1.Panel2.Controls.Add(this.keyBox);
             this.splitContainer1.Panel2.Controls.Add(this.label4);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.generateButton);
-            this.splitContainer1.Panel2.Controls.Add(this.comboBox4);
-            this.splitContainer1.Panel2.Controls.Add(this.comboBox3);
-            this.splitContainer1.Panel2.Controls.Add(this.comboBox2);
-            this.splitContainer1.Panel2.Controls.Add(this.comboBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.chordBox4);
+            this.splitContainer1.Panel2.Controls.Add(this.chordBox3);
+            this.splitContainer1.Panel2.Controls.Add(this.chordBox2);
+            this.splitContainer1.Panel2.Controls.Add(this.chordBox1);
             this.splitContainer1.Size = new System.Drawing.Size(1223, 489);
             this.splitContainer1.SplitterDistance = 246;
             this.splitContainer1.TabIndex = 0;
             // 
-            // pianoStaff
+            // trainMarkovButton
             // 
-            this.pianoStaff.BackColor = System.Drawing.Color.White;
-            this.pianoStaff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pianoStaff.Location = new System.Drawing.Point(0, 0);
-            this.pianoStaff.Name = "pianoStaff";
-            this.pianoStaff.NoteHeight = 10;
-            this.pianoStaff.Size = new System.Drawing.Size(1223, 246);
-            this.pianoStaff.TabIndex = 0;
+            this.trainMarkovButton.Location = new System.Drawing.Point(12, 170);
+            this.trainMarkovButton.Name = "trainMarkovButton";
+            this.trainMarkovButton.Size = new System.Drawing.Size(124, 23);
+            this.trainMarkovButton.TabIndex = 12;
+            this.trainMarkovButton.Text = "Train Markov Chain";
+            this.trainMarkovButton.UseVisualStyleBackColor = true;
+            this.trainMarkovButton.Click += new System.EventHandler(this.HandleMarkovTrainClick);
             // 
             // stopButton
             // 
@@ -118,14 +120,27 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Key:";
             // 
-            // comboBox5
+            // keyBox
             // 
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(46, 14);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(121, 21);
-            this.comboBox5.TabIndex = 8;
-            this.comboBox5.Text = "C";
+            this.keyBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.keyBox.FormattingEnabled = true;
+            this.keyBox.Items.AddRange(new object[] {
+            "A",
+            "A#",
+            "B",
+            "C",
+            "C#",
+            "D",
+            "D#",
+            "E",
+            "F",
+            "F#",
+            "G",
+            "G#"});
+            this.keyBox.Location = new System.Drawing.Point(46, 14);
+            this.keyBox.Name = "keyBox";
+            this.keyBox.Size = new System.Drawing.Size(121, 21);
+            this.keyBox.TabIndex = 8;
             // 
             // label4
             // 
@@ -173,41 +188,83 @@
             this.generateButton.UseVisualStyleBackColor = true;
             this.generateButton.Click += new System.EventHandler(this.HandleGenerateClick);
             // 
-            // comboBox4
+            // chordBox4
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(396, 58);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(121, 21);
-            this.comboBox4.TabIndex = 3;
-            this.comboBox4.Text = "C";
+            this.chordBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.chordBox4.FormattingEnabled = true;
+            this.chordBox4.Items.AddRange(new object[] {
+            "I",
+            "II",
+            "III",
+            "IV",
+            "V",
+            "VI",
+            "VII"});
+            this.chordBox4.Location = new System.Drawing.Point(396, 58);
+            this.chordBox4.Name = "chordBox4";
+            this.chordBox4.Size = new System.Drawing.Size(121, 21);
+            this.chordBox4.TabIndex = 3;
             // 
-            // comboBox3
+            // chordBox3
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(269, 58);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
-            this.comboBox3.TabIndex = 2;
-            this.comboBox3.Text = "C";
+            this.chordBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.chordBox3.FormattingEnabled = true;
+            this.chordBox3.Items.AddRange(new object[] {
+            "I",
+            "II",
+            "III",
+            "IV",
+            "V",
+            "VI",
+            "VII"});
+            this.chordBox3.Location = new System.Drawing.Point(269, 58);
+            this.chordBox3.Name = "chordBox3";
+            this.chordBox3.Size = new System.Drawing.Size(121, 21);
+            this.chordBox3.TabIndex = 2;
             // 
-            // comboBox2
+            // chordBox2
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(142, 58);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 1;
-            this.comboBox2.Text = "C";
+            this.chordBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.chordBox2.FormattingEnabled = true;
+            this.chordBox2.Items.AddRange(new object[] {
+            "I",
+            "II",
+            "III",
+            "IV",
+            "V",
+            "VI",
+            "VII"});
+            this.chordBox2.Location = new System.Drawing.Point(142, 58);
+            this.chordBox2.Name = "chordBox2";
+            this.chordBox2.Size = new System.Drawing.Size(121, 21);
+            this.chordBox2.TabIndex = 1;
             // 
-            // comboBox1
+            // chordBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(15, 58);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 0;
-            this.comboBox1.Text = "C";
+            this.chordBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.chordBox1.FormattingEnabled = true;
+            this.chordBox1.Items.AddRange(new object[] {
+            "I",
+            "II",
+            "III",
+            "IV",
+            "V",
+            "VI",
+            "VII"});
+            this.chordBox1.Location = new System.Drawing.Point(15, 58);
+            this.chordBox1.Name = "chordBox1";
+            this.chordBox1.Size = new System.Drawing.Size(121, 21);
+            this.chordBox1.TabIndex = 0;
+            // 
+            // pianoStaff
+            // 
+            this.pianoStaff.BackColor = System.Drawing.Color.White;
+            this.pianoStaff.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pianoStaff.Location = new System.Drawing.Point(0, 0);
+            this.pianoStaff.Name = "pianoStaff";
+            this.pianoStaff.NoteHeight = 10;
+            this.pianoStaff.Size = new System.Drawing.Size(1223, 246);
+            this.pianoStaff.TabIndex = 0;
             // 
             // MainFrame
             // 
@@ -234,17 +291,18 @@
         private PianoStaff pianoStaff;
         private System.Windows.Forms.Button generateButton;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox keyBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox chordBox4;
+        private System.Windows.Forms.ComboBox chordBox3;
+        private System.Windows.Forms.ComboBox chordBox2;
+        private System.Windows.Forms.ComboBox chordBox1;
         private System.Windows.Forms.Button playButton;
         private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button trainMarkovButton;
     }
 }
 

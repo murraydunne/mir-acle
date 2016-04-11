@@ -22,7 +22,7 @@ namespace Miracle
             SixteenthNoteLengthInMs = 208; // ~200 BPM
         }
 
-        public void Play(List<Note> song)
+        public void Play(List<Note> song, int key, List<int> chords)
         {
             lock(playingLock)
             {
@@ -35,9 +35,11 @@ namespace Miracle
                 stopPlayback = false;
 
                 List<Note> copyOfSong = new List<Note>(song);
+                List<int> copyOfChords = new List<int>(chords);
+                SongAndChords param = new SongAndChords() { Song = copyOfSong, Key = key, Chords = copyOfChords };
 
                 playingThread = new Thread(new ParameterizedThreadStart(DoPlay));
-                playingThread.Start(copyOfSong);
+                playingThread.Start(param);
             }
         }
 
@@ -45,6 +47,11 @@ namespace Miracle
         {
             lock(playingLock)
             {
+                if(!isCurrentlyPlaying)
+                {
+                    return;
+                }
+
                 stopPlayback = true;
             }
 
@@ -69,13 +76,53 @@ namespace Miracle
             }
         }
 
+        private struct SongAndChords
+        {
+            public List<Note> Song { get; set; }
+            public int Key { get; set; }
+            public List<int> Chords { get; set; }
+        }
+
+        private void Note(bool on, int note, ChannelMessageBuilder builder, OutputDevice output)
+        {
+            if(on)
+            {
+                builder.Command = ChannelCommand.NoteOn;
+                builder.MidiChannel = 0;
+                builder.Data1 = note + 45;
+                builder.Data2 = 127;
+                builder.Build();
+
+                output.Send(builder.Result);
+            }
+            else
+            {
+                builder.Command = ChannelCommand.NoteOff;
+                builder.MidiChannel = 0;
+                builder.Data1 = note + 45;
+                builder.Data2 = 0;
+                builder.Build();
+
+                output.Send(builder.Result);
+            }
+        }
+
         private void DoPlay(object objSong)
         {
-            List<Note> song = (List<Note>)objSong;
+            SongAndChords param = (SongAndChords)objSong;
+            List<Note> song = (List<Note>)param.Song;
+            int[] chords = param.Chords.ToArray();
+            int key = param.Key;
+            int currentSongPos = 0;
+            int lastChordOn = 0;
 
             using (OutputDevice outDevice = new OutputDevice(0))
             {
                 ChannelMessageBuilder builder = new ChannelMessageBuilder();
+
+                // turn first chord on
+                Note(true, key + chords[0], builder, outDevice);
+                lastChordOn = key + chords[0];
 
                 foreach (Note n in song)
                 {
@@ -87,39 +134,45 @@ namespace Miracle
                         }
                     }
 
-                    builder.Command = ChannelCommand.NoteOn;
-                    builder.MidiChannel = 0;
-                    builder.Data1 = n.Id + 45;
-                    builder.Data2 = 127;
-                    builder.Build();
+                    // turn on current note
+                    Note(true, n.Id, builder, outDevice);
 
-                    outDevice.Send(builder.Result);
+                    int sixteenthsToNextBarline = (int)(Math.Ceiling(currentSongPos / 16.0f) * 16.0f) - currentSongPos;
+                    int noteSleep = (int)n.Length;
 
-                    switch (n.Length)
+                    if(noteSleep >= sixteenthsToNextBarline)
                     {
-                        case NoteLength.Sixteenth:
-                            Thread.Sleep(SixteenthNoteLengthInMs);
-                            break;
-                        case NoteLength.Eighth:
-                            Thread.Sleep(SixteenthNoteLengthInMs * 2);
-                            break;
-                        case NoteLength.Quarter:
-                            Thread.Sleep(SixteenthNoteLengthInMs * 4);
-                            break;
-                        case NoteLength.Half:
-                            Thread.Sleep(SixteenthNoteLengthInMs * 8);
-                            break;
-                        case NoteLength.Whole:
-                            Thread.Sleep(SixteenthNoteLengthInMs * 16);
-                            break;
+                        Thread.Sleep(SixteenthNoteLengthInMs * sixteenthsToNextBarline);
+                        noteSleep -= sixteenthsToNextBarline;
+
+                        // we have a barline in the middle of this node, switch chords here
+
+                        // last chord off
+                        Note(false, lastChordOn, builder, outDevice);
+                        currentSongPos += sixteenthsToNextBarline;
+
+                        // if no the end of the song
+                        if (currentSongPos < chords.Length * 16)
+                        {
+                            // this chord on
+                            int newChord = chords[currentSongPos / 16];
+                            Note(true, key + newChord, builder, outDevice);
+                            lastChordOn = key + newChord;
+                        }
                     }
 
-                    builder.Command = ChannelCommand.NoteOff;
-                    builder.Data2 = 0;
-                    builder.Build();
+                    if(noteSleep > 0)
+                    {
+                        Thread.Sleep(SixteenthNoteLengthInMs * noteSleep);
+                        currentSongPos += noteSleep;
+                    }
 
-                    outDevice.Send(builder.Result);
+                    // turn off current note
+                    Note(false, n.Id, builder, outDevice);
                 }
+                
+                // turn last chord off
+                Note(false, lastChordOn, builder, outDevice);
             }
         }
     }
