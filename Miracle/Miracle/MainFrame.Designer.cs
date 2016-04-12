@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.pianoStaff = new Miracle.PianoStaff();
+            this.shorterButton = new System.Windows.Forms.Button();
+            this.longerButton = new System.Windows.Forms.Button();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
@@ -48,8 +49,11 @@
             this.chordBox3 = new System.Windows.Forms.ComboBox();
             this.chordBox2 = new System.Windows.Forms.ComboBox();
             this.chordBox1 = new System.Windows.Forms.ComboBox();
-            this.shorterButton = new System.Windows.Forms.Button();
-            this.longerButton = new System.Windows.Forms.Button();
+            this.scaleBox = new System.Windows.Forms.ComboBox();
+            this.generatorBox = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pianoStaff = new Miracle.PianoStaff();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -60,6 +64,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -69,6 +74,10 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.label7);
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
+            this.splitContainer1.Panel2.Controls.Add(this.generatorBox);
+            this.splitContainer1.Panel2.Controls.Add(this.scaleBox);
             this.splitContainer1.Panel2.Controls.Add(this.shorterButton);
             this.splitContainer1.Panel2.Controls.Add(this.longerButton);
             this.splitContainer1.Panel2.Controls.Add(this.buttonDown);
@@ -89,25 +98,39 @@
             this.splitContainer1.Panel2.Controls.Add(this.chordBox3);
             this.splitContainer1.Panel2.Controls.Add(this.chordBox2);
             this.splitContainer1.Panel2.Controls.Add(this.chordBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1223, 489);
-            this.splitContainer1.SplitterDistance = 246;
+            this.splitContainer1.Size = new System.Drawing.Size(1631, 602);
+            this.splitContainer1.SplitterDistance = 302;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
-            // pianoStaff
+            // shorterButton
             // 
-            this.pianoStaff.BackColor = System.Drawing.Color.White;
-            this.pianoStaff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pianoStaff.Location = new System.Drawing.Point(0, 0);
-            this.pianoStaff.Name = "pianoStaff";
-            this.pianoStaff.NoteHeight = 10;
-            this.pianoStaff.Size = new System.Drawing.Size(1223, 246);
-            this.pianoStaff.TabIndex = 0;
+            this.shorterButton.Location = new System.Drawing.Point(595, 186);
+            this.shorterButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.shorterButton.Name = "shorterButton";
+            this.shorterButton.Size = new System.Drawing.Size(31, 28);
+            this.shorterButton.TabIndex = 18;
+            this.shorterButton.Text = "-";
+            this.shorterButton.UseVisualStyleBackColor = true;
+            this.shorterButton.Click += new System.EventHandler(this.HandleShorterClick);
+            // 
+            // longerButton
+            // 
+            this.longerButton.Location = new System.Drawing.Point(595, 134);
+            this.longerButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.longerButton.Name = "longerButton";
+            this.longerButton.Size = new System.Drawing.Size(31, 28);
+            this.longerButton.TabIndex = 17;
+            this.longerButton.Text = "+";
+            this.longerButton.UseVisualStyleBackColor = true;
+            this.longerButton.Click += new System.EventHandler(this.HandleLongerClick);
             // 
             // buttonDown
             // 
-            this.buttonDown.Location = new System.Drawing.Point(417, 151);
+            this.buttonDown.Location = new System.Drawing.Point(556, 186);
+            this.buttonDown.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonDown.Name = "buttonDown";
-            this.buttonDown.Size = new System.Drawing.Size(23, 23);
+            this.buttonDown.Size = new System.Drawing.Size(31, 28);
             this.buttonDown.TabIndex = 16;
             this.buttonDown.Text = "v";
             this.buttonDown.UseVisualStyleBackColor = true;
@@ -115,9 +138,10 @@
             // 
             // buttonRight
             // 
-            this.buttonRight.Location = new System.Drawing.Point(473, 130);
+            this.buttonRight.Location = new System.Drawing.Point(631, 160);
+            this.buttonRight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonRight.Name = "buttonRight";
-            this.buttonRight.Size = new System.Drawing.Size(23, 23);
+            this.buttonRight.Size = new System.Drawing.Size(31, 28);
             this.buttonRight.TabIndex = 15;
             this.buttonRight.Text = ">";
             this.buttonRight.UseVisualStyleBackColor = true;
@@ -125,9 +149,10 @@
             // 
             // buttonUp
             // 
-            this.buttonUp.Location = new System.Drawing.Point(417, 109);
+            this.buttonUp.Location = new System.Drawing.Point(556, 134);
+            this.buttonUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonUp.Name = "buttonUp";
-            this.buttonUp.Size = new System.Drawing.Size(23, 23);
+            this.buttonUp.Size = new System.Drawing.Size(31, 28);
             this.buttonUp.TabIndex = 14;
             this.buttonUp.Text = "^";
             this.buttonUp.UseVisualStyleBackColor = true;
@@ -135,9 +160,10 @@
             // 
             // buttonLeft
             // 
-            this.buttonLeft.Location = new System.Drawing.Point(390, 130);
+            this.buttonLeft.Location = new System.Drawing.Point(520, 160);
+            this.buttonLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonLeft.Name = "buttonLeft";
-            this.buttonLeft.Size = new System.Drawing.Size(23, 23);
+            this.buttonLeft.Size = new System.Drawing.Size(31, 28);
             this.buttonLeft.TabIndex = 13;
             this.buttonLeft.Text = "<";
             this.buttonLeft.UseVisualStyleBackColor = true;
@@ -145,9 +171,10 @@
             // 
             // trainMarkovButton
             // 
-            this.trainMarkovButton.Location = new System.Drawing.Point(12, 170);
+            this.trainMarkovButton.Location = new System.Drawing.Point(16, 209);
+            this.trainMarkovButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.trainMarkovButton.Name = "trainMarkovButton";
-            this.trainMarkovButton.Size = new System.Drawing.Size(124, 23);
+            this.trainMarkovButton.Size = new System.Drawing.Size(165, 28);
             this.trainMarkovButton.TabIndex = 12;
             this.trainMarkovButton.Text = "Train Markov Chain";
             this.trainMarkovButton.UseVisualStyleBackColor = true;
@@ -155,9 +182,10 @@
             // 
             // stopButton
             // 
-            this.stopButton.Location = new System.Drawing.Point(96, 114);
+            this.stopButton.Location = new System.Drawing.Point(128, 140);
+            this.stopButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.Size = new System.Drawing.Size(100, 28);
             this.stopButton.TabIndex = 11;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
@@ -165,9 +193,10 @@
             // 
             // playButton
             // 
-            this.playButton.Location = new System.Drawing.Point(15, 114);
+            this.playButton.Location = new System.Drawing.Point(20, 140);
+            this.playButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.playButton.Name = "playButton";
-            this.playButton.Size = new System.Drawing.Size(75, 23);
+            this.playButton.Size = new System.Drawing.Size(100, 28);
             this.playButton.TabIndex = 10;
             this.playButton.Text = "Play";
             this.playButton.UseVisualStyleBackColor = true;
@@ -176,9 +205,10 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 17);
+            this.label5.Location = new System.Drawing.Point(16, 21);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(28, 13);
+            this.label5.Size = new System.Drawing.Size(36, 17);
             this.label5.TabIndex = 9;
             this.label5.Text = "Key:";
             // 
@@ -199,52 +229,58 @@
             "F#",
             "G",
             "G#"});
-            this.keyBox.Location = new System.Drawing.Point(46, 14);
+            this.keyBox.Location = new System.Drawing.Point(61, 17);
+            this.keyBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.keyBox.Name = "keyBox";
-            this.keyBox.Size = new System.Drawing.Size(121, 21);
+            this.keyBox.Size = new System.Drawing.Size(160, 24);
             this.keyBox.TabIndex = 8;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(393, 42);
+            this.label4.Location = new System.Drawing.Point(524, 52);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 13);
+            this.label4.Size = new System.Drawing.Size(62, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "Chord 4:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(266, 42);
+            this.label3.Location = new System.Drawing.Point(355, 52);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
+            this.label3.Size = new System.Drawing.Size(62, 17);
             this.label3.TabIndex = 6;
             this.label3.Text = "Chord 3:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(139, 42);
+            this.label2.Location = new System.Drawing.Point(185, 52);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 13);
+            this.label2.Size = new System.Drawing.Size(62, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "Chord 2:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 42);
+            this.label1.Location = new System.Drawing.Point(20, 52);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.Size = new System.Drawing.Size(62, 17);
             this.label1.TabIndex = 4;
             this.label1.Text = "Chord 1:";
             // 
             // generateButton
             // 
-            this.generateButton.Location = new System.Drawing.Point(15, 85);
+            this.generateButton.Location = new System.Drawing.Point(20, 105);
+            this.generateButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.generateButton.Name = "generateButton";
-            this.generateButton.Size = new System.Drawing.Size(75, 23);
+            this.generateButton.Size = new System.Drawing.Size(100, 28);
             this.generateButton.TabIndex = 0;
             this.generateButton.Text = "Generate";
             this.generateButton.UseVisualStyleBackColor = true;
@@ -262,9 +298,10 @@
             "V",
             "VI",
             "VII"});
-            this.chordBox4.Location = new System.Drawing.Point(396, 58);
+            this.chordBox4.Location = new System.Drawing.Point(528, 71);
+            this.chordBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chordBox4.Name = "chordBox4";
-            this.chordBox4.Size = new System.Drawing.Size(121, 21);
+            this.chordBox4.Size = new System.Drawing.Size(160, 24);
             this.chordBox4.TabIndex = 3;
             // 
             // chordBox3
@@ -279,9 +316,10 @@
             "V",
             "VI",
             "VII"});
-            this.chordBox3.Location = new System.Drawing.Point(269, 58);
+            this.chordBox3.Location = new System.Drawing.Point(359, 71);
+            this.chordBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chordBox3.Name = "chordBox3";
-            this.chordBox3.Size = new System.Drawing.Size(121, 21);
+            this.chordBox3.Size = new System.Drawing.Size(160, 24);
             this.chordBox3.TabIndex = 2;
             // 
             // chordBox2
@@ -296,9 +334,10 @@
             "V",
             "VI",
             "VII"});
-            this.chordBox2.Location = new System.Drawing.Point(142, 58);
+            this.chordBox2.Location = new System.Drawing.Point(189, 71);
+            this.chordBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chordBox2.Name = "chordBox2";
-            this.chordBox2.Size = new System.Drawing.Size(121, 21);
+            this.chordBox2.Size = new System.Drawing.Size(160, 24);
             this.chordBox2.TabIndex = 1;
             // 
             // chordBox1
@@ -313,38 +352,83 @@
             "V",
             "VI",
             "VII"});
-            this.chordBox1.Location = new System.Drawing.Point(15, 58);
+            this.chordBox1.Location = new System.Drawing.Point(20, 71);
+            this.chordBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chordBox1.Name = "chordBox1";
-            this.chordBox1.Size = new System.Drawing.Size(121, 21);
+            this.chordBox1.Size = new System.Drawing.Size(160, 24);
             this.chordBox1.TabIndex = 0;
             // 
-            // shorterButton
+            // scaleBox
             // 
-            this.shorterButton.Location = new System.Drawing.Point(446, 151);
-            this.shorterButton.Name = "shorterButton";
-            this.shorterButton.Size = new System.Drawing.Size(23, 23);
-            this.shorterButton.TabIndex = 18;
-            this.shorterButton.Text = "-";
-            this.shorterButton.UseVisualStyleBackColor = true;
-            this.shorterButton.Click += new System.EventHandler(this.HandleShorterClick);
+            this.scaleBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.scaleBox.FormattingEnabled = true;
+            this.scaleBox.Items.AddRange(new object[] {
+            "Major",
+            "Minor",
+            "Blues",
+            "Custom1",
+            "Custom2"});
+            this.scaleBox.Location = new System.Drawing.Point(310, 17);
+            this.scaleBox.Margin = new System.Windows.Forms.Padding(4);
+            this.scaleBox.Name = "scaleBox";
+            this.scaleBox.Size = new System.Drawing.Size(160, 24);
+            this.scaleBox.TabIndex = 19;
             // 
-            // longerButton
+            // generatorBox
             // 
-            this.longerButton.Location = new System.Drawing.Point(446, 109);
-            this.longerButton.Name = "longerButton";
-            this.longerButton.Size = new System.Drawing.Size(23, 23);
-            this.longerButton.TabIndex = 17;
-            this.longerButton.Text = "+";
-            this.longerButton.UseVisualStyleBackColor = true;
-            this.longerButton.Click += new System.EventHandler(this.HandleLongerClick);
+            this.generatorBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.generatorBox.FormattingEnabled = true;
+            this.generatorBox.Items.AddRange(new object[] {
+            "Random",
+            "Noise",
+            "Markov",
+            "Riff"});
+            this.generatorBox.Location = new System.Drawing.Point(562, 17);
+            this.generatorBox.Margin = new System.Windows.Forms.Padding(4);
+            this.generatorBox.Name = "generatorBox";
+            this.generatorBox.Size = new System.Drawing.Size(160, 24);
+            this.generatorBox.TabIndex = 20;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(259, 21);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(47, 17);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "Scale:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(483, 21);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(77, 17);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "Generator:";
+            // 
+            // pianoStaff
+            // 
+            this.pianoStaff.BackColor = System.Drawing.Color.White;
+            this.pianoStaff.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pianoStaff.Location = new System.Drawing.Point(0, 0);
+            this.pianoStaff.Margin = new System.Windows.Forms.Padding(5);
+            this.pianoStaff.Name = "pianoStaff";
+            this.pianoStaff.NoteHeight = 10;
+            this.pianoStaff.SelectedIndex = 0;
+            this.pianoStaff.Size = new System.Drawing.Size(1631, 302);
+            this.pianoStaff.TabIndex = 0;
             // 
             // MainFrame
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1223, 489);
+            this.ClientSize = new System.Drawing.Size(1631, 602);
             this.Controls.Add(this.splitContainer1);
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainFrame";
             this.Text = "Miracle";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HandleClosed);
@@ -383,6 +467,10 @@
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button shorterButton;
         private System.Windows.Forms.Button longerButton;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox generatorBox;
+        private System.Windows.Forms.ComboBox scaleBox;
     }
 }
 

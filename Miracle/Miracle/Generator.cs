@@ -23,7 +23,7 @@ Usage:
 
 namespace Miracle
 {
-    public class Generator : IGenerator
+    public class Generator : AbstractGenerator
     {
       
 
@@ -47,7 +47,7 @@ namespace Miracle
             return false;
         }
 
-        public List<Note> Generate()
+        public override List<Note> Generate()
         {
             Random r = new Random();
             List<Note> output = new List<Note>();

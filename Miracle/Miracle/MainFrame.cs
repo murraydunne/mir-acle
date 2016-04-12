@@ -21,11 +21,14 @@ namespace Miracle
         {
             InitializeComponent();
 
+            generatorBox.SelectedIndex = 0;
+            scaleBox.SelectedIndex = 0;
             keyBox.SelectedIndex = 0;
             chordBox1.SelectedIndex = 0;
             chordBox2.SelectedIndex = 0;
             chordBox3.SelectedIndex = 0;
             chordBox4.SelectedIndex = 0;
+
 
             currentPlayer = new Player();
         }
@@ -39,15 +42,33 @@ namespace Miracle
         {
             int[] l = { chordBox1.SelectedIndex, chordBox2.SelectedIndex, chordBox3.SelectedIndex, chordBox4.SelectedIndex };
             Note k = new Note(keyBox.SelectedIndex);
+
+            AbstractGenerator[] generators = { new Generator(l, k), new NoiseGenerator(l, k), markovGenerator, new RiffGenerator(l, k) };
+            AbstractGenerator g;
             
-            IGenerator g = new RiffGenerator(l, k);
-            if (markovGenerator != null)
+            if (generators[generatorBox.SelectedIndex] == markovGenerator)
             {
-                g = markovGenerator;
+                if (markovGenerator != null)
+                {
+                    g = markovGenerator;
+
+                } else
+                {
+                    g = null;
+                }
+            } else
+            {
+                g = generators[generatorBox.SelectedIndex];
+                g.CurrentScale = scaleBox.SelectedIndex;
+                
             }
 
             //NoiseGenerator g = new NoiseGenerator(l, k);
-            currentSong = g.Generate();
+            if(g!=null)
+            {
+                currentSong = g.Generate();
+
+            }
 
             //currentSong = new Loader().LoadMidiFile("D:/Downloads/cs1-1pre.mid");
 

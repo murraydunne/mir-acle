@@ -26,9 +26,8 @@ Usage:
 
 namespace Miracle
 {
-    public class NoiseGenerator : IGenerator
+    public class NoiseGenerator : AbstractGenerator
     {
-       
 
         public Note Key { get; set; }
 
@@ -114,7 +113,7 @@ namespace Miracle
 
         }
 
-        public List<Note> Generate()
+        public override List<Note> Generate()
         {
             GenNoise();
             OpenSimplexNoise noise = new OpenSimplexNoise(DateTime.Now.Millisecond);

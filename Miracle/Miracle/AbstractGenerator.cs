@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Miracle
 {
-    public interface IGenerator
+    public abstract class AbstractGenerator
     {
+        public int CurrentScale = 0;
 
-        List<Note> Generate();
+        public abstract List<Note> Generate();
     }
 }

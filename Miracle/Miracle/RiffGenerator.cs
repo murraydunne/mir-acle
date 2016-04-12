@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Miracle
 {
-    class RiffGenerator : IGenerator
+    class RiffGenerator : AbstractGenerator
     {
 
         public Note Key { get; set; }
-
         public int[] chords;
 
         public RiffGenerator(int[] c, Note k)
@@ -75,7 +74,7 @@ namespace Miracle
             return false;
         }
 
-        public List<Note> Generate()
+        public override List<Note> Generate()
         {
             Random r = new Random();
             List<Note> output = new List<Note>();

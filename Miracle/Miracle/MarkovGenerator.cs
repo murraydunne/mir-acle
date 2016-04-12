@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Miracle
 {
-    public class MarkovGenerator : IGenerator
+    public class MarkovGenerator : AbstractGenerator
     {
         private HiddenMarkovModel model;
 
@@ -33,7 +33,7 @@ namespace Miracle
             bwTeacher.Run(sequences);
         }
 
-        public List<Note> Generate()
+        public override List<Note> Generate()
         {
             int[] sample = model.Generate(64);
 
