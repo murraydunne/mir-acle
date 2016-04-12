@@ -28,23 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.scrollBar = new System.Windows.Forms.HScrollBar();
             this.SuspendLayout();
-            // 
-            // scrollBar
-            // 
-            this.scrollBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.scrollBar.Location = new System.Drawing.Point(0, 133);
-            this.scrollBar.Name = "scrollBar";
-            this.scrollBar.Size = new System.Drawing.Size(150, 17);
-            this.scrollBar.TabIndex = 0;
             // 
             // PianoStaff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.scrollBar);
             this.DoubleBuffered = true;
             this.Name = "PianoStaff";
             this.Load += new System.EventHandler(this.HandleLoad);
@@ -55,7 +45,5 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.HScrollBar scrollBar;
     }
 }

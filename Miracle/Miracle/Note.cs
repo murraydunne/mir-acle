@@ -105,7 +105,7 @@ namespace Miracle
         public int GetStaffPosition()
         {
             int output = 0;
-            int test = Id % 12;
+            int test = (Id + 1440) % 12;
             switch (test)
             {
                 case 0:
@@ -150,7 +150,7 @@ namespace Miracle
 
         public int GetOctave()
         {
-            return (int)(Id / 12);
+            return (int)Math.Floor((double)Id / 12.0);
         }
 
         public static Note operator +(Note c1, int c2)

@@ -58,8 +58,6 @@ namespace Miracle
             //currentSong.Add(new Note(12));
 
             pianoStaff.SetSong(currentSong);
-
-            Invalidate();
         }
 
         private void HandlePlayClick(object sender, EventArgs e)
@@ -103,6 +101,89 @@ namespace Miracle
             if(markovGenerator == null)
             {
                 markovGenerator = new MarkovGenerator("D:/Downloads/cs1-1pre.mid");
+            }
+        }
+
+        private void HandleUpClick(object sender, EventArgs e)
+        {
+            pianoStaff.SetSelectedNote(pianoStaff.Selection.Id + 1, pianoStaff.Selection.Length);
+        }
+
+        private void HandleRightClick(object sender, EventArgs e)
+        {
+            pianoStaff.SelectedIndex++;
+        }
+
+        private void HandleLeftClick(object sender, EventArgs e)
+        {
+            pianoStaff.SelectedIndex--;
+        }
+
+        private void HandleDownClick(object sender, EventArgs e)
+        {
+            pianoStaff.SetSelectedNote(pianoStaff.Selection.Id - 1, pianoStaff.Selection.Length);
+        }
+
+        private void HandleLongerClick(object sender, EventArgs e)
+        {
+            int startLength = (int)pianoStaff.Selection.Length;
+            NoteLength newLength = pianoStaff.Selection.Length;
+            if(startLength < 16)
+            {
+                newLength = (NoteLength)(startLength * 2);
+            }
+
+            pianoStaff.SetSelectedNote(pianoStaff.Selection.Id, newLength);
+        }
+
+        private void HandleShorterClick(object sender, EventArgs e)
+        {
+            int startLength = (int)pianoStaff.Selection.Length;
+            NoteLength newLength = pianoStaff.Selection.Length;
+            if (startLength > 1)
+            {
+                newLength = (NoteLength)(startLength / 2);
+            }
+
+            pianoStaff.SetSelectedNote(pianoStaff.Selection.Id, newLength);
+        }
+
+        private void HandleKeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Up)
+            {
+                HandleUpClick(sender, e);
+                e.SuppressKeyPress = true;
+            }
+
+            if (e.KeyCode == Keys.Down)
+            {
+                HandleDownClick(sender, e);
+                e.SuppressKeyPress = true;
+            }
+
+            if (e.KeyCode == Keys.Left)
+            {
+                HandleLeftClick(sender, e);
+                e.SuppressKeyPress = true;
+            }
+
+            if (e.KeyCode == Keys.Right)
+            {
+                HandleRightClick(sender, e);
+                e.SuppressKeyPress = true;
+            }
+
+            if (e.KeyCode == Keys.OemMinus)
+            {
+                HandleShorterClick(sender, e);
+                e.SuppressKeyPress = true;
+            }
+
+            if (e.KeyCode == Keys.Oemplus)
+            {
+                HandleLongerClick(sender, e);
+                e.SuppressKeyPress = true;
             }
         }
     }

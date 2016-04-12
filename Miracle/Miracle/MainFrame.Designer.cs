@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.pianoStaff = new Miracle.PianoStaff();
+            this.buttonDown = new System.Windows.Forms.Button();
+            this.buttonRight = new System.Windows.Forms.Button();
+            this.buttonUp = new System.Windows.Forms.Button();
+            this.buttonLeft = new System.Windows.Forms.Button();
             this.trainMarkovButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.playButton = new System.Windows.Forms.Button();
@@ -43,7 +48,8 @@
             this.chordBox3 = new System.Windows.Forms.ComboBox();
             this.chordBox2 = new System.Windows.Forms.ComboBox();
             this.chordBox1 = new System.Windows.Forms.ComboBox();
-            this.pianoStaff = new Miracle.PianoStaff();
+            this.shorterButton = new System.Windows.Forms.Button();
+            this.longerButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -63,6 +69,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.shorterButton);
+            this.splitContainer1.Panel2.Controls.Add(this.longerButton);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonDown);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonRight);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonUp);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonLeft);
             this.splitContainer1.Panel2.Controls.Add(this.trainMarkovButton);
             this.splitContainer1.Panel2.Controls.Add(this.stopButton);
             this.splitContainer1.Panel2.Controls.Add(this.playButton);
@@ -80,6 +92,56 @@
             this.splitContainer1.Size = new System.Drawing.Size(1223, 489);
             this.splitContainer1.SplitterDistance = 246;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // pianoStaff
+            // 
+            this.pianoStaff.BackColor = System.Drawing.Color.White;
+            this.pianoStaff.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pianoStaff.Location = new System.Drawing.Point(0, 0);
+            this.pianoStaff.Name = "pianoStaff";
+            this.pianoStaff.NoteHeight = 10;
+            this.pianoStaff.Size = new System.Drawing.Size(1223, 246);
+            this.pianoStaff.TabIndex = 0;
+            // 
+            // buttonDown
+            // 
+            this.buttonDown.Location = new System.Drawing.Point(417, 151);
+            this.buttonDown.Name = "buttonDown";
+            this.buttonDown.Size = new System.Drawing.Size(23, 23);
+            this.buttonDown.TabIndex = 16;
+            this.buttonDown.Text = "v";
+            this.buttonDown.UseVisualStyleBackColor = true;
+            this.buttonDown.Click += new System.EventHandler(this.HandleDownClick);
+            // 
+            // buttonRight
+            // 
+            this.buttonRight.Location = new System.Drawing.Point(473, 130);
+            this.buttonRight.Name = "buttonRight";
+            this.buttonRight.Size = new System.Drawing.Size(23, 23);
+            this.buttonRight.TabIndex = 15;
+            this.buttonRight.Text = ">";
+            this.buttonRight.UseVisualStyleBackColor = true;
+            this.buttonRight.Click += new System.EventHandler(this.HandleRightClick);
+            // 
+            // buttonUp
+            // 
+            this.buttonUp.Location = new System.Drawing.Point(417, 109);
+            this.buttonUp.Name = "buttonUp";
+            this.buttonUp.Size = new System.Drawing.Size(23, 23);
+            this.buttonUp.TabIndex = 14;
+            this.buttonUp.Text = "^";
+            this.buttonUp.UseVisualStyleBackColor = true;
+            this.buttonUp.Click += new System.EventHandler(this.HandleUpClick);
+            // 
+            // buttonLeft
+            // 
+            this.buttonLeft.Location = new System.Drawing.Point(390, 130);
+            this.buttonLeft.Name = "buttonLeft";
+            this.buttonLeft.Size = new System.Drawing.Size(23, 23);
+            this.buttonLeft.TabIndex = 13;
+            this.buttonLeft.Text = "<";
+            this.buttonLeft.UseVisualStyleBackColor = true;
+            this.buttonLeft.Click += new System.EventHandler(this.HandleLeftClick);
             // 
             // trainMarkovButton
             // 
@@ -256,15 +318,25 @@
             this.chordBox1.Size = new System.Drawing.Size(121, 21);
             this.chordBox1.TabIndex = 0;
             // 
-            // pianoStaff
+            // shorterButton
             // 
-            this.pianoStaff.BackColor = System.Drawing.Color.White;
-            this.pianoStaff.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pianoStaff.Location = new System.Drawing.Point(0, 0);
-            this.pianoStaff.Name = "pianoStaff";
-            this.pianoStaff.NoteHeight = 10;
-            this.pianoStaff.Size = new System.Drawing.Size(1223, 246);
-            this.pianoStaff.TabIndex = 0;
+            this.shorterButton.Location = new System.Drawing.Point(446, 151);
+            this.shorterButton.Name = "shorterButton";
+            this.shorterButton.Size = new System.Drawing.Size(23, 23);
+            this.shorterButton.TabIndex = 18;
+            this.shorterButton.Text = "-";
+            this.shorterButton.UseVisualStyleBackColor = true;
+            this.shorterButton.Click += new System.EventHandler(this.HandleShorterClick);
+            // 
+            // longerButton
+            // 
+            this.longerButton.Location = new System.Drawing.Point(446, 109);
+            this.longerButton.Name = "longerButton";
+            this.longerButton.Size = new System.Drawing.Size(23, 23);
+            this.longerButton.TabIndex = 17;
+            this.longerButton.Text = "+";
+            this.longerButton.UseVisualStyleBackColor = true;
+            this.longerButton.Click += new System.EventHandler(this.HandleLongerClick);
             // 
             // MainFrame
             // 
@@ -272,10 +344,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1223, 489);
             this.Controls.Add(this.splitContainer1);
+            this.KeyPreview = true;
             this.Name = "MainFrame";
             this.Text = "Miracle";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HandleClosed);
             this.Load += new System.EventHandler(this.HandleLoad);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HandleKeyUp);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
@@ -303,6 +377,12 @@
         private System.Windows.Forms.Button playButton;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button trainMarkovButton;
+        private System.Windows.Forms.Button buttonDown;
+        private System.Windows.Forms.Button buttonRight;
+        private System.Windows.Forms.Button buttonUp;
+        private System.Windows.Forms.Button buttonLeft;
+        private System.Windows.Forms.Button shorterButton;
+        private System.Windows.Forms.Button longerButton;
     }
 }
 
