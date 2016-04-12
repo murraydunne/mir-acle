@@ -40,7 +40,7 @@ namespace Miracle
             int[] l = { chordBox1.SelectedIndex, chordBox2.SelectedIndex, chordBox3.SelectedIndex, chordBox4.SelectedIndex };
             Note k = new Note(keyBox.SelectedIndex);
             
-            IGenerator g = new NoiseGenerator(l, k);
+            IGenerator g = new RiffGenerator(l, k);
             if (markovGenerator != null)
             {
                 g = markovGenerator;
