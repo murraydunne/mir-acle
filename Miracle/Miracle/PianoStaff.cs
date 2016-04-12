@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Miracle
 {
@@ -15,10 +16,12 @@ namespace Miracle
         private bool loaded = false;
         private int scrollDistance = 0;
         private List<Note> song = null;
+        private int selectedIndex = 0;
 
         public PianoStaff()
         {
             InitializeComponent();
+            selectedIndex = 0;
         }
 
         public void SetSong(List<Note> song)
@@ -27,12 +30,64 @@ namespace Miracle
             Invalidate();
         }
 
+        public Note Selection
+        {
+            get
+            {
+                if(song == null)
+                {
+                    return null;
+                }
+
+                return song[selectedIndex];
+            }
+        }
+
+        public int SelectedIndex
+        {
+            get
+            {
+                return selectedIndex;
+            }
+            set
+            {
+                if(song == null)
+                {
+                    return;
+                }
+
+                if(value >= song.Count)
+                {
+                    selectedIndex = song.Count - 1;
+                }
+                else if(value < 0)
+                {
+                    selectedIndex = 0;
+                }
+                else
+                {
+                    selectedIndex = value;
+                }
+
+                Invalidate();
+            }
+        }
+        
+        public void SetSelectedNote(int newId, NoteLength newLength)
+        {
+            if (song != null)
+            {
+                song[selectedIndex] = new Note(newId, newLength);
+                Invalidate();
+            }
+        }
+
         private void HandlePaint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
             int staffHeight = noteHeight * 10;
-            int yOffset = (Height - staffHeight - scrollBar.Height) / 2;
+            int yOffset = (Height - staffHeight) / 2;
             int xOffset = Math.Max(-scrollDistance + 10, 0);
 
             for(int i = 0; i < 11; i++)
@@ -52,6 +107,7 @@ namespace Miracle
             int currentPoitionIn16ths = 0;
             int sixteenthXInterval = 15;
             int barlineSpace = 0;
+            int renderingIndex = 0;
 
             foreach(Note n in song)
             {
@@ -59,26 +115,28 @@ namespace Miracle
                 int halfstepsDown = 20 - n.GetOctave() * 7 - n.GetStaffPosition();
                 int deltaSixteenths = 0;
 
-                switch(n.Length)
+                bool isSelected = (renderingIndex == selectedIndex);
+
+                switch (n.Length)
                 {
                     case NoteLength.Sixteenth:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 2, n.IsSharp());
+                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 2, n.IsSharp(), isSelected);
                         deltaSixteenths = 1;
                         break;
                     case NoteLength.Eighth:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 1, n.IsSharp());
+                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 1, n.IsSharp(), isSelected);
                         deltaSixteenths = 2;
                         break;
                     case NoteLength.Quarter:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 0, n.IsSharp());
+                        DrawNote(g, noteX, yOffset, halfstepsDown, false, true, 0, n.IsSharp(), isSelected);
                         deltaSixteenths = 4;
                         break;
                     case NoteLength.Half:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, true, true, 0, n.IsSharp());
+                        DrawNote(g, noteX, yOffset, halfstepsDown, true, true, 0, n.IsSharp(), isSelected);
                         deltaSixteenths = 8;
                         break;
                     case NoteLength.Whole:
-                        DrawNote(g, noteX, yOffset, halfstepsDown, true, false, 0, n.IsSharp());
+                        DrawNote(g, noteX, yOffset, halfstepsDown, true, false, 0, n.IsSharp(), isSelected);
                         deltaSixteenths = 16;
                         break;
                 }
@@ -89,6 +147,7 @@ namespace Miracle
                 }
 
                 currentPoitionIn16ths += deltaSixteenths;
+                renderingIndex++;
             }
             
             // draw barlines
@@ -99,7 +158,7 @@ namespace Miracle
             }
         }
 
-        private void DrawNote(Graphics g, int x, int topOfStaff, int halfStepsDownFromAboveTopLine, bool hollow, bool stem, int numFlags, bool isSharp)
+        private void DrawNote(Graphics g, int x, int topOfStaff, int halfStepsDownFromAboveTopLine, bool hollow, bool stem, int numFlags, bool isSharp, bool isSelected)
         {
             int y = topOfStaff - noteHeight + (halfStepsDownFromAboveTopLine * (noteHeight / 2));
             bool stemUp = false;
@@ -134,11 +193,11 @@ namespace Miracle
 
             if(hollow)
             {
-                g.DrawEllipse(Pens.Black, x, y, noteHeight, noteHeight);
+                g.DrawEllipse((isSelected ? Pens.Blue : Pens.Black), x, y, noteHeight, noteHeight);
             }
             else
             {
-                g.FillEllipse(Brushes.Black, x, y, noteHeight, noteHeight);
+                g.FillEllipse((isSelected ? Brushes.Blue : Brushes.Black), x, y, noteHeight, noteHeight);
             }
 
             if(isSharp)
