@@ -119,9 +119,13 @@ namespace Miracle
 
         private void HandleMarkovTrainClick(object sender, EventArgs e)
         {
-            if(markovGenerator == null)
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Midi files (*.mid;*.midi)|*.mid;*.midi|All files (*.*)|*.*";
+            ofd.Multiselect = false;
+
+            if(ofd.ShowDialog() == DialogResult.OK)
             {
-                markovGenerator = new MarkovGenerator("D:/Downloads/cs1-1pre.mid");
+                markovGenerator = new MarkovGenerator(ofd.FileName);
             }
         }
 

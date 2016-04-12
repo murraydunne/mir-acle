@@ -10,11 +10,37 @@ namespace Miracle
 {
     public class MarkovGenerator : AbstractGenerator
     {
-        private HiddenMarkovModel model;
+        private int addToNote = 0;
+        private HiddenMarkovModel model = null;
 
         public MarkovGenerator(string trainingFile)
         {
-            Note[] basis = new Loader().LoadMidiFile(trainingFile).ToArray();
+            List<Note> noteList = new Loader().LoadMidiFile(trainingFile);
+            if(noteList == null)
+            {
+                return;
+            }
+
+            Note[] basis = noteList.ToArray();
+
+            int minId = 1000;
+            int maxId = -1000;
+
+            for(int i = 0; i < basis.Length; i++)
+            {
+                if(basis[i].Id < minId)
+                {
+                    minId = basis[i].Id;
+                }
+
+                if(basis[i].Id > maxId)
+                {
+                    maxId = basis[i].Id;
+                }
+            }
+
+            int range = maxId - minId;
+            addToNote = -minId;
 
             int[][] sequences = new int[basis.Length / 64][];
             for(int i = 0; i < basis.Length / 64; i++)
@@ -23,11 +49,14 @@ namespace Miracle
 
                 for(int j = 0; j < 64; j++)
                 {
-                    sequences[i][j] = basis[i + j].Id + 20;
+                    Note basisNote = basis[i + j];
+                    int noteRepresentation = ((basisNote.Id + addToNote) * 5) + (int)Math.Log((int)basisNote.Length, 2.0);
+
+                    sequences[i][j] = noteRepresentation;
                 }
             }
 
-            model = new HiddenMarkovModel(64, 50);
+            model = new HiddenMarkovModel(64, range * 5);
 
             BaumWelchLearning bwTeacher = new BaumWelchLearning(model) { Iterations = 10 };
             bwTeacher.Run(sequences);
@@ -35,13 +64,21 @@ namespace Miracle
 
         public override List<Note> Generate()
         {
+            if(model == null)
+            {
+                return new List<Note>();
+            }
+
             int[] sample = model.Generate(64);
 
             List<Note> result = new List<Note>();
 
             foreach(int note in sample)
             {
-                result.Add(new Note(note - 20, NoteLength.Sixteenth));
+                int noteLength = (int)Math.Pow(2.0, note % 5);
+                int noteId = (note / 5) - addToNote;
+
+                result.Add(new Note(noteId, (NoteLength)noteLength));
             }
 
             return result;
