@@ -366,6 +366,7 @@
             "Major",
             "Minor",
             "Blues",
+            "Pentatonic",
             "Custom1",
             "Custom2"});
             this.scaleBox.Location = new System.Drawing.Point(310, 17);

@@ -165,7 +165,7 @@ namespace Miracle
                     output.Add(new Note((Key +
                                         nextOctave +            //goes up an octive if necessary
                                         Scales.AllScales[0, chords[i]] +   //goes to the root of the current chord
-                                        Scales.AllScales[4, nextPitch]).Id, //goes to the randomized note at that chord
+                                        Scales.AllScales[CurrentScale, nextPitch]).Id, //goes to the randomized note at that chord
                                         (NoteLength)nextLength));
 
 

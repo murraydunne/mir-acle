@@ -56,7 +56,7 @@ namespace Miracle
                 }
             }
 
-            model = new HiddenMarkovModel(64, range * 5);
+            model = new HiddenMarkovModel(64, (range * 5)+10);
 
             BaumWelchLearning bwTeacher = new BaumWelchLearning(model) { Iterations = 10 };
             bwTeacher.Run(sequences);
